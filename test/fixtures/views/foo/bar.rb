@@ -1,9 +1,12 @@
-module Views
-  module Foo 
-    class Bar < Template
-      def content
-        h1 { out 'plain' }
-        p  { out local }
+module Foo
+  class Bar < Minimal::Template
+    def content
+      html do
+        head
+        body do
+          h1 { 'plain' }
+          p  { local }
+        end
       end
     end
   end

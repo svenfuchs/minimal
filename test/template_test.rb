@@ -6,6 +6,7 @@ class TemplateTest < Test::Unit::TestCase
   end
   
   test "simple render with local assigns" do
-    assert_equal '<h1>plain</h1><p>local</p>', @view.render(:file => 'foo/bar', :locals => { :local => 'local' })
+    html = '<html><head></head><body><h1>plain</h1><p>local</p></body></html>'
+    assert_equal html, @view.render(:file => 'foo/bar', :locals => { :local => 'local' })
   end
 end

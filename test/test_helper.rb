@@ -1,9 +1,13 @@
 $: << File.expand_path('../../lib', __FILE__)
 
 require 'rubygems'
-require 'action_view'
-require 'minimal/template'
 require 'test/unit'
+require 'pp'
+require 'minimal'
+
+ActionView::Template.register_template_handler('rb', Minimal::Template)
+
+# Minimal::Template.send(:include, Minimal::Tidy)
 
 module TestMethod
   def self.included(base)
