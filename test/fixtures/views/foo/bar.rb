@@ -4,10 +4,17 @@ module Foo
       html do
         head
         body do
-          h1 { 'plain' }
-          p  { local }
+          h1 'plain'
+          bar
+          div do
+            render :partial => 'foo/partial', :locals => { :local => 'partial' }
+          end
         end
       end
+    end
+
+    def bar
+      p  { local }
     end
   end
 end

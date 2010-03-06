@@ -1,5 +1,12 @@
-class Minimal::Template < ActionView::Template::Handler
-  include ActionView::Template::Handlers::Compilable
+class Minimal::Template
+  class Handler < ActionView::Template::Handler
+    include ActionView::Template::Handlers::Compilable
+
+    def compile(template)
+      require template.identifier
+      "#{template.identifier =~ %r(views/(.*).rb) && $1.camelize}.new(self).to_s(local_assigns)"
+    end
+  end
 
   TAG_NAMES = %w(a body div fieldset form h1 h2 h3 h4 head html img input
     label li link ol option p pre script select span table td th tr ul)
@@ -16,16 +23,11 @@ class Minimal::Template < ActionView::Template::Handler
       capture { content }
     end
 
-    def compile(template)
-      require template.identifier
-      "#{template.identifier =~ %r(views/(.*).rb) && $1.camelize}.new(self).to_s(local_assigns)"
-    end
-
     protected
 
       TAG_NAMES.each do |tag_name|
         define_method(tag_name) do |*args, &block|
-          buffers.last << @view.content_tag(tag_name, *args) { capture(&block) if block }
+          buffers.last << view.content_tag(tag_name, *args) { block ? capture(&block) : args.first }
         end
       end
 
@@ -38,8 +40,8 @@ class Minimal::Template < ActionView::Template::Handler
 
       def method_missing(method, *args, &block)
         return locals[method] if locals.key?(method)
-        return view.send(method, *args, &block) if view.respond_to?(method)
         return view.instance_variable_get("@#{method}") if view.instance_variable_defined?("@#{method}")
+        return buffers.last << view.send(method, *args, &block) if view.respond_to?(method)
         super
       end
   end
