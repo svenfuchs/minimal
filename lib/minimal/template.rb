@@ -11,10 +11,10 @@ class Minimal::Template
     end
   end
 
-  BUFFERED = %r(render|_tag|error_message_|select|debug|_for|_to)
+  AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|_for)
 
-  TAG_NAMES = %w(a body div fieldset form h1 h2 h3 h4 head html img input
-    label li link ol option p pre script select span table td th tr ul)
+  TAG_NAMES = %w(a body div em fieldset form h1 h2 h3 h4 head html img input
+    label li link ol option p pre script select span strong table td th tr ul)
 
   module Base
     attr_reader :view, :buffers, :locals
@@ -25,26 +25,17 @@ class Minimal::Template
 
     def to_s(locals = nil)
       @locals = locals || {}
-      capture { content }
+      content
     end
 
     protected
 
       TAG_NAMES.each do |tag_name|
-        define_method(tag_name) do |*args, &block|
-          self << view.content_tag(tag_name, *args) { block ? capture(&block) : args.first }
-        end
+        define_method(tag_name) { |*args, &block| content_tag(tag_name, *args, &block) }
       end
 
       def <<(output)
-        buffers.last << output
-      end
-
-      def capture(*args, &block)
-        buffers << ActiveSupport::SafeBuffer.new
-        result = yield(*args)
-        self << result if buffers.last.empty?
-        buffers.pop
+        view.output_buffer << output
       end
 
       def method_missing(method, *args, &block)
@@ -54,9 +45,8 @@ class Minimal::Template
       end
 
       def call_view(method, *args, &block)
-        result = block ? view.send(method, *args) { |*args| capture(*args, &block) } : view.send(method, *args)
-        self << result if BUFFERED =~ method.to_s
-        result
+        result = view.capture { view.send(method, *args, &block) }
+        AUTO_BUFFER =~ method.to_s ? self << result : result
       end
   end
   include Base

@@ -4,6 +4,8 @@ require 'rubygems'
 require 'test/unit'
 require 'pp'
 require 'minimal'
+require 'action_controller'
+require 'active_model'
 
 ActionView::Template.register_template_handler('rb', Minimal::Template::Handler)
 
