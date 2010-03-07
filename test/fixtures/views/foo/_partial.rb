@@ -1,7 +1,7 @@
 module Foo
   class Partial < Minimal::Template
     def content
-      h2 local
+      p local
     end
   end
 end

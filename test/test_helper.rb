@@ -7,6 +7,8 @@ require 'minimal'
 
 ActionView::Template.register_template_handler('rb', Minimal::Template::Handler)
 
+ActionView::Base.class_eval { def protect_against_forgery?; false end } # HAX
+
 module TestMethod
   def self.included(base)
     base.class_eval do
