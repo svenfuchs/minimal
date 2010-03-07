@@ -18,8 +18,8 @@ class Minimal::Template
       @view, @buffers = view, []
     end
 
-    def to_s(locals = {})
-      @locals = locals
+    def to_s(locals = nil)
+      @locals = locals || {}
       capture { content }
     end
 
@@ -29,6 +29,10 @@ class Minimal::Template
         define_method(tag_name) do |*args, &block|
           buffers.last << view.content_tag(tag_name, *args) { block ? capture(&block) : args.first }
         end
+      end
+
+      def <<(output)
+        buffers.last << output
       end
 
       def capture(&block)
@@ -41,8 +45,13 @@ class Minimal::Template
       def method_missing(method, *args, &block)
         return locals[method] if locals.key?(method)
         return view.instance_variable_get("@#{method}") if view.instance_variable_defined?("@#{method}")
-        return buffers.last << view.send(method, *args, &block) if view.respond_to?(method)
-        super
+
+        if view.respond_to?(method)
+          result = view.send(method, *args, &block)
+          method == :render ? buffers.last << result : result
+        else
+          super
+        end
       end
   end
   include Base
