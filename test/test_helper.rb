@@ -7,8 +7,6 @@ require 'minimal'
 
 ActionView::Template.register_template_handler('rb', Minimal::Template::Handler)
 
-# Minimal::Template.send(:include, Minimal::Tidy)
-
 module TestMethod
   def self.included(base)
     base.class_eval do
