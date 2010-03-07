@@ -12,7 +12,7 @@ module Foo
     end
 
     def bar
-      p  { local }
+      p { local }
     end
   end
 end

@@ -1,13 +1,13 @@
 class Minimal::Template
+  autoload :FormBuilderProxy, 'minimal/template/form_builder_proxy'
+
   class Handler < ActionView::Template::Handler
     include ActionView::Template::Handlers::Compilable
 
     def compile(template)
       require template.identifier
-      <<-code
-        @output_buffer = ActiveSupport::SafeBuffer.new
-        #{template.identifier =~ %r(views/(.*).rb) && $1.camelize}.new(self).to_s(local_assigns)
-      code
+      klass = template.identifier =~ %r(views/(.*).rb) && $1.camelize
+      "@output_buffer = ActiveSupport::SafeBuffer.new;#{klass}.new(self)._render(local_assigns)"
     end
   end
 
@@ -23,20 +23,20 @@ class Minimal::Template
       @view, @buffers = view, []
     end
 
-    def to_s(locals = nil)
+    def _render(locals = nil)
       @locals = locals || {}
       content
     end
 
+    TAG_NAMES.each do |name|
+      define_method(name) { |*args, &block| content_tag(name, *args, &block) }
+    end
+
+    def <<(output)
+      view.output_buffer << output
+    end
+
     protected
-
-      TAG_NAMES.each do |tag_name|
-        define_method(tag_name) { |*args, &block| content_tag(tag_name, *args, &block) }
-      end
-
-      def <<(output)
-        view.output_buffer << output
-      end
 
       def method_missing(method, *args, &block)
         locals.key?(method) ? locals[method] :
