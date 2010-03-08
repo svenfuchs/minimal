@@ -6,13 +6,13 @@ module Foo
         body do
           h1 'plain'
           bar
-          div { div { 'nested' }}
+          div { div 'nested' }
         end
       end
     end
 
     def bar
-      p { local }
+      p escape_once(local)
     end
   end
 end

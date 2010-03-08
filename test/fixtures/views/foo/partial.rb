@@ -2,9 +2,11 @@ module Foo
   class Partial < Minimal::Template
     def content
       div do
-        render :partial => 'foo/partial', :locals => { :local => 'partial' }
+        %w(foo bar).each do |local|
+          render :partial => 'foo/partial', :locals => { :local => local }
+        end
       end
-      render :partial => 'foo/partial', :locals => { :local => 'partial' }
+      render :partial => 'foo/partial', :locals => { :local => 'baz' }
     end
   end
 end
