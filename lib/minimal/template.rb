@@ -47,10 +47,12 @@ class Minimal::Template
       end
 
       def call_view(method, *args, &block)
-        block = lambda { |*a| self << view.with_output_buffer { yield(*a) } } if block
-        view.send(method, *args, &block).tap do |result|
-          view.output_buffer << result if AUTO_BUFFER =~ method.to_s && NO_AUTO_BUFFER !~ method.to_s
-        end
+        block = lambda { |*args| self << view.with_output_buffer { yield(*args) } } if block
+        view.send(method, *args, &block).tap { |result| self << result if auto_buffer?(method) }
+      end
+
+      def auto_buffer?(method)
+        AUTO_BUFFER =~ method.to_s && NO_AUTO_BUFFER !~ method.to_s
       end
   end
   include Base
