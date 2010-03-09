@@ -61,6 +61,12 @@ class TemplateTest < Test::Unit::TestCase
     assert_equal html, view.output_buffer
   end
 
+  # test "does not buffer but return a helper's result when :capture => true was passed'" do
+  #   result = template.a('foo', :href => '#', :capture => true)
+  #   assert_equal '<a href="#">foo</a>', result
+  #   assert_equal '', view.output_buffer
+  # end
+
   test "simple render with local assigns" do
     html = '<html><head></head><body><h1>plain</h1><p>local</p><div><div>nested</div></div></body></html>'
     assert_equal html, view.render(:file => 'foo/simple', :locals => { :local => 'local' })

@@ -14,14 +14,14 @@ class Minimal::Template
   AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|_for)
   NO_AUTO_BUFFER = %r(form_tag|form_for)
 
-  TAG_NAMES = %w(a body div em fieldset form h1 h2 h3 h4 head html img input
-    label li link ol option p pre script select span strong table td th tr ul)
+  TAG_NAMES = %w(a body div em fieldset h1 h2 h3 h4 head html img input label li
+    link ol option p pre script select span strong table thead tbody tfoot td th tr ul)
 
   module Base
     attr_reader :view, :buffers, :locals
 
     def initialize(view = nil)
-      @view, @buffers = view, []
+      @view, @buffers, @locals = view, [], {}
     end
 
     def _render(locals = nil)
@@ -32,6 +32,7 @@ class Minimal::Template
 
     TAG_NAMES.each do |name|
       define_method(name) { |*args, &block| content_tag(name, *args, &block) }
+      define_method("#{name}_for") { |*args, &block| content_tag_for(name, *args, &block) }
     end
 
     def <<(output)
@@ -47,7 +48,7 @@ class Minimal::Template
       end
 
       def call_view(method, *args, &block)
-        block = lambda { |*args| self << view.with_output_buffer { yield(*args) } } if block
+        block = lambda { |*a| self << view.with_output_buffer { yield(*a) } } if block
         view.send(method, *args, &block).tap { |result| self << result if auto_buffer?(method) }
       end
 
