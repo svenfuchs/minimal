@@ -7,6 +7,8 @@ require 'minimal'
 require 'action_controller'
 require 'active_model'
 
+alias :require_dependency :require
+
 Minimal::Template.send(:include, Minimal::Template::FormBuilderProxy)
 
 ActionView::Template.register_template_handler('rb', Minimal::Template::Handler)
