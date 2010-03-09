@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{minimal}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sven Fuchs"]
-  s.date = %q{2010-03-06}
+  s.date = %q{2010-03-10}
   s.description = %q{Minimal templating engine inspired by Markaby & Erector and targeted at Rails 3}
   s.email = %q{svenfuchs@artweb-design.de}
   s.extra_rdoc_files = [
@@ -20,10 +20,15 @@ Gem::Specification.new do |s|
      "Rakefile",
      "lib/minimal.rb",
      "lib/minimal/template.rb",
-     "lib/minimal/tidy.rb",
+     "lib/minimal/template/form_builder_proxy.rb",
      "lib/minimal/version.rb",
      "test/fixtures/views/foo/_partial.rb",
-     "test/fixtures/views/foo/bar.rb",
+     "test/fixtures/views/foo/form_for.rb",
+     "test/fixtures/views/foo/form_tag.rb",
+     "test/fixtures/views/foo/misc_helpers.rb",
+     "test/fixtures/views/foo/partial.rb",
+     "test/fixtures/views/foo/simple.rb",
+     "test/fixtures/views/foo/table.rb",
      "test/template_test.rb",
      "test/test_helper.rb"
   ]
@@ -34,7 +39,12 @@ Gem::Specification.new do |s|
   s.summary = %q{Minimal templating engine inspired by Markaby & Erector}
   s.test_files = [
     "test/fixtures/views/foo/_partial.rb",
-     "test/fixtures/views/foo/bar.rb",
+     "test/fixtures/views/foo/form_for.rb",
+     "test/fixtures/views/foo/form_tag.rb",
+     "test/fixtures/views/foo/misc_helpers.rb",
+     "test/fixtures/views/foo/partial.rb",
+     "test/fixtures/views/foo/simple.rb",
+     "test/fixtures/views/foo/table.rb",
      "test/template_test.rb",
      "test/test_helper.rb"
   ]
