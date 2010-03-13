@@ -2,6 +2,15 @@ require 'rake/testtask'
 
 require File.expand_path("../lib/minimal/version", __FILE__)
 
+task :default => [:test]
+
+Rake::TestTask.new(:test) do |t|
+  t.pattern = "#{File.dirname(__FILE__)}/test/**/*_test.rb"
+  t.verbose = true
+end
+Rake::Task['test'].comment = "Run all tests"
+
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
