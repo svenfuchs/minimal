@@ -4,7 +4,7 @@ module Foo
       image_tag('http://no-asset-host.com/rails.png')
       debug('foo')
       javascript_tag("alert('All is good')")
-      div_for(Record.new) { self << 'content' }
+      # div_for(Record.new) { self << 'content' }
       tag('br')
       content_tag(:p, 'Hello world!')
       content_tag(:p) { self << 'Hello world!' }
