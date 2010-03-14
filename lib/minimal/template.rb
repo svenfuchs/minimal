@@ -1,15 +1,6 @@
 class Minimal::Template
   autoload :FormBuilderProxy, 'minimal/template/form_builder_proxy'
-
-  class Handler < ActionView::Template::Handler
-    include ActionView::Template::Handlers::Compilable
-
-    def compile(template)
-      require_dependency template.identifier
-      klass = template.identifier =~ %r(views/(.*).rb) && $1.camelize
-      "@output_buffer = ActiveSupport::SafeBuffer.new;#{klass}.new(self)._render(local_assigns)"
-    end
-  end
+  autoload :Handler,          'minimal/template/handler'
 
   AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|_for)
   NO_AUTO_BUFFER = %r(form_tag|form_for)
