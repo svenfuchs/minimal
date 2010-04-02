@@ -1,9 +1,9 @@
 $: << File.expand_path('../../lib', __FILE__)
 
-require 'rubygems'
-# require 'bundler' # doesn't work on runcoderun
+# require 'rubygems'
+# require 'bundler'
 # Bundler.setup
-gem 'actionpack', '>=3.0.0.beta'
+# gem 'actionpack', '>=3.0.0.beta'
 
 require 'test/unit'
 require 'pp'
