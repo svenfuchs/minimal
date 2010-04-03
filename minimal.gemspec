@@ -12,8 +12,6 @@ Gem::Specification.new do |s|
   s.description  = 'Minimal templating engine inspired by Markaby & Erector and targeted at Rails 3.'
   s.files        = Dir['{lib/**/*,[A-Z]*}']
 
-  s.add_runtime_dependency 'htmlentities', '>= 4.2.0'
-
   s.platform     = Gem::Platform::RUBY
   s.require_path = 'lib'
   s.rubyforge_project = '[none]'
