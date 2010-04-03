@@ -3,7 +3,7 @@ class Minimal::Template
   autoload :Handler,          'minimal/template/handler'
 
   AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|_for)
-  NO_AUTO_BUFFER = %r(form_tag|form_for)
+  # NO_AUTO_BUFFER = %r(form_tag|form_for)
 
   TAG_NAMES = %w(a body div em fieldset h1 h2 h3 h4 head html img input label li
     link ol option p pre script select span strong table thead tbody tfoot td th tr ul)
@@ -44,7 +44,7 @@ class Minimal::Template
       end
 
       def auto_buffer?(method)
-        AUTO_BUFFER =~ method.to_s && NO_AUTO_BUFFER !~ method.to_s
+        AUTO_BUFFER =~ method.to_s # && NO_AUTO_BUFFER !~ method.to_s
       end
   end
   include Base

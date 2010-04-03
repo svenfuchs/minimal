@@ -14,7 +14,7 @@ class Minimal::Template
 
     def method_missing(method, *args, &block)
       if [:form_for, :fields_for].include?(method)
-        view.form_for(*args) { |builder| yield(Proxy.new(self, builder)) }
+        self << view.send(method, *args) { |builder| yield(Proxy.new(self, builder)) }
       else
         super
       end
