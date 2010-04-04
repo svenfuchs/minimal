@@ -8,10 +8,10 @@ class Minimal::Template
     link ol option p pre script select span strong table thead tbody tfoot td th tr ul)
 
   module Base
-    attr_reader :view, :buffers, :locals
+    attr_accessor :view, :locals
 
     def initialize(view = nil)
-      @view, @buffers, @locals = view, [], {}
+      @view, @locals, @_buffer = view, {}, {}
     end
 
     def _render(locals = nil)
@@ -26,24 +26,27 @@ class Minimal::Template
     end
 
     def <<(output)
-      view.output_buffer << output
+      view.output_buffer << output.to_s
     end
 
     def respond_to?(method)
-      locals.key?(method) || view.instance_variable_defined?("@#{method}") || view.respond_to?(method)
+      view.respond_to?(method) || locals.key?(method) || view.instance_variable_defined?("@#{method}")
     end
 
     protected
 
       def method_missing(method, *args, &block)
-        locals.key?(method) ? locals[method] :
+        view.respond_to?(method) ? call_view(method, *args, &block) :
           view.instance_variable_defined?("@#{method}") ? view.instance_variable_get("@#{method}") :
-          view.respond_to?(method) ? call_view(method, *args, &block) : super
+          locals.key?(method) ? locals[method] : super
       end
 
       def call_view(method, *args, &block)
-        block = lambda { |*a| self << view.with_output_buffer { yield(*a) } } if block
-        view.send(method, *args, &block).tap { |result| self << result if AUTO_BUFFER =~ method.to_s }
+        view.send(method, *args, &block).tap { |result| self << result if auto_buffer?(method) }
+      end
+
+      def auto_buffer?(method)
+        @_buffer.key?(method) ? @_buffer[method] : @_buffer[method] = AUTO_BUFFER =~ method.to_s
       end
   end
   include Base

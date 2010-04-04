@@ -6,7 +6,7 @@ class TemplateTest < Test::Unit::TestCase
   end
 
   def view
-    @view ||= ActionView::Base.new(FIXTURES_PATH).tap do |view|
+    @view ||= ActionView::Base.new(VIEW_PATH).tap do |view|
       view.output_buffer = ActiveSupport::SafeBuffer.new rescue ''
     end
   end

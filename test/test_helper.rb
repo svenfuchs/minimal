@@ -12,7 +12,7 @@ ActionView::Template.register_template_handler('rb', Minimal::Template::Handler)
 
 ActionView::Base.class_eval { def protect_against_forgery?; false end } # HAX
 
-FIXTURES_PATH = File.expand_path('../fixtures/views', __FILE__)
+VIEW_PATH = File.expand_path('../fixtures/views', __FILE__)
 
 class Record
   def self.model_name; ActiveModel::Name.new(self) end
