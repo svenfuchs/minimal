@@ -3,9 +3,9 @@ class Minimal::Template
     include ActionView::Template::Handlers::Compilable
 
     def compile(template)
+      require_dependency template.identifier
       <<-code
         @output_buffer = ActiveSupport::SafeBuffer.new
-        require_dependency "#{template.identifier}"
         #{template_class_name(template.identifier)}.new(self)._render(local_assigns)
       code
     end
