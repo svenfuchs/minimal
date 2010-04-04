@@ -3,7 +3,6 @@ class Minimal::Template
   autoload :Handler,          'minimal/template/handler'
 
   AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|_for)
-  # NO_AUTO_BUFFER = %r(form_tag|form_for)
 
   TAG_NAMES = %w(a body div em fieldset h1 h2 h3 h4 head html img input label li
     link ol option p pre script select span strong table thead tbody tfoot td th tr ul)
@@ -30,6 +29,10 @@ class Minimal::Template
       view.output_buffer << output
     end
 
+    def respond_to?(method)
+      locals.key?(method) || view.instance_variable_defined?("@#{method}") || view.respond_to?(method)
+    end
+
     protected
 
       def method_missing(method, *args, &block)
@@ -40,11 +43,7 @@ class Minimal::Template
 
       def call_view(method, *args, &block)
         block = lambda { |*a| self << view.with_output_buffer { yield(*a) } } if block
-        view.send(method, *args, &block).tap { |result| self << result if auto_buffer?(method) }
-      end
-
-      def auto_buffer?(method)
-        AUTO_BUFFER =~ method.to_s # && NO_AUTO_BUFFER !~ method.to_s
+        view.send(method, *args, &block).tap { |result| self << result if AUTO_BUFFER =~ method.to_s }
       end
   end
   include Base
