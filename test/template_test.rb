@@ -103,6 +103,16 @@ class TemplateTest < Test::Unit::TestCase
     assert_equal html, view.render(:file => 'foo/form_for')
   end
 
+  test "form_for with nested fields_for" do
+    html = '<form accept-charset="UTF-8" action="/foo" method="post">' +
+    '<div style="margin:0;padding:0;display:inline"><input name="_snowman" type="hidden" value="&#9731;" /></div>' +
+    '<select id="form_foo" name="form[foo]"><option value="1">1</option></select>' +
+    '<select id="form_outer_bar" name="form[outer][bar]"><option value="1">1</option></select>' +
+    '<select id="form_outer_inner_baz" name="form[outer][inner][baz]"><option value="1">1</option></select>' +
+    '</form>'
+    assert_equal html, view.render(:file => 'foo/fields_for').gsub("\n", '')
+  end
+
   test "misc_helpers" do
     html = '<img alt="Rails" src="http://no-asset-host.com/rails.png" />' +
       "<pre class='debug_dump'>--- foo</pre>" +

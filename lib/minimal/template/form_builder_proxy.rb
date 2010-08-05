@@ -8,13 +8,21 @@ class Minimal::Template
       end
 
       def method_missing(method, *args, &block)
-        template << builder.send(method, *args, &block)
+        if [:form_for, :fields_for].include?(method)
+          template << builder.send(method, *args) do |builder|
+            yield(Proxy.new(template, builder))
+          end
+        else
+          template << builder.send(method, *args, &block)
+        end
       end
     end
 
     def method_missing(method, *args, &block)
       if [:form_for, :fields_for].include?(method)
-        self << view.send(method, *args) { |builder| yield(Proxy.new(self, builder)) }
+        self << view.send(method, *args) do |builder|
+          yield(Proxy.new(self, builder))
+        end
       else
         super
       end
