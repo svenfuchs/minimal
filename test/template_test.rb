@@ -54,7 +54,8 @@ class TemplateTest < Test::Unit::TestCase
       template << f.text_field('bar')
       'baz'
     end
-    html = '<form action="/foo" method="post">' +
+    html = '<form accept-charset="UTF-8" action="/foo" method="post">' +
+      '<div style="margin:0;padding:0;display:inline"><input name="_snowman" type="hidden" value="&#9731;" /></div>' +
       '<input id="foo_foo" name="foo[foo]" size="30" type="text" />' +
       '<input id="foo_bar" name="foo[bar]" size="30" type="text" />' +
       '</form>'
@@ -84,7 +85,8 @@ class TemplateTest < Test::Unit::TestCase
 
   test "form_tag with input_tags" do
     html = '<div>foo</div>' +
-      '<form action="/foo" method="post">' +
+      '<form accept-charset="UTF-8" action="/foo" method="post">' +
+      '<div style="margin:0;padding:0;display:inline"><input name="_snowman" type="hidden" value="&#9731;" /></div>' +
       '<div><input id="bar" name="bar" type="text" /></div>' +
       '<input id="baz" name="baz" type="text" />' +
       '</form>'
@@ -93,7 +95,8 @@ class TemplateTest < Test::Unit::TestCase
 
   test "form_for" do
     html = '<div>foo</div>' +
-      '<form action="/foo" method="post">' +
+      '<form accept-charset="UTF-8" action="/foo" method="post">' +
+      '<div style="margin:0;padding:0;display:inline"><input name="_snowman" type="hidden" value="&#9731;" /></div>' +
       '<div><input id="foo_bar" name="foo[bar]" size="30" type="text" /></div>' +
       '<input id="foo_baz" name="foo[baz]" size="30" type="text" />' +
       '</form>'
