@@ -4,16 +4,19 @@ class Minimal::Template
 
     def compile(template)
       require_dependency template.identifier
+      class_name, format = template_class_name_and_format(template.identifier)
       <<-code
         @output_buffer = ActiveSupport::SafeBuffer.new
-        #{template_class_name(template.identifier)}.new(self)._render(local_assigns) { yield }
+        template, format = #{class_name}, #{format.inspect}
+        template.new(self)._render(local_assigns, format) { |*args| yield(*args) }
       code
     end
 
     protected
 
-      def template_class_name(path)
-        path =~ %r(views/(.*).rb) && $1.gsub('.', '/').camelize
+      def template_class_name_and_format(path)
+        %r(views/(.*?)(\.[^\.]*)?.rb) =~ path
+        [$1.try(:camelize), ($2 || 'html').gsub('.', '').to_sym]
       end
   end
 end

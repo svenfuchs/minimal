@@ -128,6 +128,11 @@ class TemplateTest < Test::Unit::TestCase
     assert_equal html, view.render(:file => 'foo/misc_helpers').gsub("\n", '')
   end
 
+  test "yielding in layouts works" do
+    html = '<html><head></head><body><div>content</div><div>sidebar</div></body></html>'
+    assert_equal html, view.render(:file => 'foo/content', :layout => 'foo/layout')
+  end
+
   test "responds to methods the view responds to" do
     assert template.respond_to?(:form_for)
   end

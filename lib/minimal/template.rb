@@ -3,8 +3,7 @@ class Minimal::Template
   autoload :Handler,          'minimal/template/handler'
 
   AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|_for)
-
-  TAG_NAMES = %w(a body div em fieldset h1 h2 h3 h4 head html img input label li
+  TAG_NAMES   = %w(a body div em fieldset h1 h2 h3 h4 head html img input label li
     link ol option p pre script select span strong table thead tbody tfoot td th tr ul)
 
   module Base
@@ -14,10 +13,10 @@ class Minimal::Template
       @view, @locals, @_buffer = view, {}, {}
     end
 
-    def _render(locals = nil, &block)
+    def _render(locals = nil, format = :html, &block)
       @locals = locals || {}
-      self.block = block
-      to_html(&block)
+      self.block = lambda { |*args| self << block.call(*args) }
+      send(:"to_#{format}", &self.block)
       view.output_buffer
     end
 
