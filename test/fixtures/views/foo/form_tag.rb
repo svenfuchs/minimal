@@ -1,6 +1,6 @@
 module Foo
   class FormTag < Minimal::Template
-    def content
+    def to_html
       div 'foo'
       form_tag '/foo' do
         div { text_field_tag('bar') }

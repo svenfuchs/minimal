@@ -1,6 +1,6 @@
 module Foo
   class Partial < Minimal::Template
-    def content
+    def to_html
       p local
     end
   end

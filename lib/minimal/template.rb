@@ -8,15 +8,16 @@ class Minimal::Template
     link ol option p pre script select span strong table thead tbody tfoot td th tr ul)
 
   module Base
-    attr_accessor :view, :locals
+    attr_accessor :view, :locals, :block
 
     def initialize(view = nil)
       @view, @locals, @_buffer = view, {}, {}
     end
 
-    def _render(locals = nil)
+    def _render(locals = nil, &block)
       @locals = locals || {}
-      content
+      self.block = block
+      to_html(&block)
       view.output_buffer
     end
 

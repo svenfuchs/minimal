@@ -3,7 +3,7 @@ Minimal::Template is an experimental, minimalistic templating engine inspired by
 <pre># views/foo/bar.rb
 module Foo
   class Bar < Minimal::Template
-    def content
+    def to_html
       html do
         head
         body do

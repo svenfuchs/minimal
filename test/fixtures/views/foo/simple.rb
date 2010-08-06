@@ -1,6 +1,6 @@
 module Foo
   class Simple < Minimal::Template
-    def content
+    def to_html
       html do
         head
         body do

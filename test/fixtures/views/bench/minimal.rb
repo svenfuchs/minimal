@@ -1,6 +1,6 @@
 module Bench
   class Minimal < Minimal::Template
-    def content
+    def to_html
       div 'foo'
       div 'foo'
       div 'foo'

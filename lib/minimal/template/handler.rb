@@ -6,7 +6,7 @@ class Minimal::Template
       require_dependency template.identifier
       <<-code
         @output_buffer = ActiveSupport::SafeBuffer.new
-        #{template_class_name(template.identifier)}.new(self)._render(local_assigns)
+        #{template_class_name(template.identifier)}.new(self)._render(local_assigns) { yield }
       code
     end
 

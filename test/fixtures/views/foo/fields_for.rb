@@ -1,6 +1,6 @@
 module Foo
   class FieldsFor < Minimal::Template
-    def content
+    def to_html
       form_for 'form', :url => '/foo' do |f|
         f.select('foo', ['1'])
         f.fields_for(:outer) do |b|

@@ -1,6 +1,6 @@
 module Foo
   class Table < Minimal::Template
-    def content
+    def to_html
       table do
         tr do
           %w(foo bar baz).each { |text| td text }

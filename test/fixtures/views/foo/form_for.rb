@@ -1,6 +1,6 @@
 module Foo
   class FormFor < Minimal::Template
-    def content
+    def to_html
       div 'foo'
       form_for 'foo', :url => '/foo' do |f|
         div { f.text_field('bar') }
