@@ -1,10 +1,11 @@
 class Minimal::Template
   autoload :FormBuilderProxy, 'minimal/template/form_builder_proxy'
   autoload :Handler,          'minimal/template/handler'
+  autoload :TranslatedTags,   'minimal/template/translated_tags'
 
   AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|_for)
-  TAG_NAMES   = %w(a body div em fieldset h1 h2 h3 h4 head html img input label li
-    link ol option p pre script select span strong table thead tbody tfoot td th tr ul)
+  TAG_NAMES   = %w(a body div em fieldset h1 h2 h3 h4 h5 h6 head html img input label li link
+    ol option p pre script select span strong table thead tbody tfoot td title th tr ul)
 
   module Base
     attr_accessor :view, :locals, :block
