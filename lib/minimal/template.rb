@@ -1,9 +1,10 @@
 class Minimal::Template
+  autoload :BeautifyHtml,     'minimal/template/beautify_html'
   autoload :FormBuilderProxy, 'minimal/template/form_builder_proxy'
   autoload :Handler,          'minimal/template/handler'
   autoload :TranslatedTags,   'minimal/template/translated_tags'
 
-  AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|_for)
+  AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|[^l]_for)
   TAG_NAMES   = %w(a body div em fieldset h1 h2 h3 h4 h5 h6 head html img input label li link
     ol option p pre script select span strong table thead tbody tfoot td title th tr ul)
 
@@ -11,7 +12,7 @@ class Minimal::Template
     attr_accessor :view, :locals, :block
 
     def initialize(view = nil)
-      @view, @locals, @_buffer = view, {}, {}
+      @view, @locals, @_auto_buffer = view, {}, {}
     end
 
     def _render(locals = nil, format = :html, &block)
@@ -27,7 +28,7 @@ class Minimal::Template
     end
 
     def <<(output)
-      view.output_buffer << output.to_s
+      view.output_buffer << output
     end
 
     def respond_to?(method)
@@ -47,7 +48,7 @@ class Minimal::Template
       end
 
       def auto_buffer?(method)
-        @_buffer.key?(method) ? @_buffer[method] : @_buffer[method] = AUTO_BUFFER =~ method.to_s
+        @_auto_buffer.key?(method) ? @_auto_buffer[method] : @_auto_buffer[method] = AUTO_BUFFER =~ method.to_s
       end
   end
   include Base
