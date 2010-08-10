@@ -7,7 +7,7 @@ class Minimal::Template
       class_name, format = template_class_name_and_format(template.identifier)
       <<-code
         @output_buffer = ActiveSupport::SafeBuffer.new
-        template, format = #{class_name}, #{format.inspect}
+        template, format = ::#{class_name}, #{format.inspect}
         template.new(self)._render(local_assigns, format) { |*args| yield(*args) }
       code
     end
