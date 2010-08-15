@@ -9,7 +9,7 @@ module Minimal::Template::BeautifyHtml
 
   class << self
     def after(controller)
-      # controller.response.body = tidy(controller.response.body) if controller.request.format.html?
+      controller.response.body = tidy(controller.response.body) if controller.request.format.html?
     end
 
     def tidy(html)
