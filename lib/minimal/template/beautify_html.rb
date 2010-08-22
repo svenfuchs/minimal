@@ -2,9 +2,13 @@ require 'tidy_ffi'
 
 module Minimal::Template::BeautifyHtml
   OPTIONS = {
-    :indent        => 'yes',
-    :indent_spaces => '2',
-    :wrap          => '0'
+    :indent          => 'yes',
+    :indent_spaces   => '2',
+    :wrap            => '0',
+    :tidy_mark       => false,
+    :char_encoding   => 'utf8',
+    :input_encoding  => 'utf8',
+    :output_encoding => 'utf8'
   }
 
   class << self
