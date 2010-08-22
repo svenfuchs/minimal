@@ -30,6 +30,7 @@ class Minimal::Template
     def <<(output)
       view.output_buffer << output
     end
+    alias :output :<<
 
     def respond_to?(method)
       view.respond_to?(method) || locals.key?(method) || view.instance_variable_defined?("@#{method}")
