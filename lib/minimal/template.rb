@@ -7,6 +7,7 @@ class Minimal::Template
   AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|[^l]_for)
   TAG_NAMES   = %w(a body div em fieldset h1 h2 h3 h4 h5 h6 head html img input label li link
     ol option p pre script select span strong table thead tbody tfoot td title th tr ul)
+  SKIP_IVARS  = [:controller]
 
   module Base
     attr_accessor :view, :locals, :block
@@ -40,8 +41,8 @@ class Minimal::Template
 
       def method_missing(method, *args, &block)
         locals.key?(method) ? locals[method] :
-          view.instance_variable_defined?("@#{method}") ? view.instance_variable_get("@#{method}") :
-          view.respond_to?(method) ? call_view(method, *args, &block) : super
+          view.instance_variable_defined?("@#{method}") && !SKIP_IVARS.include?(method) ? view.instance_variable_get("@#{method}") :
+            view.respond_to?(method) ? call_view(method, *args, &block) : super
       end
 
       def call_view(method, *args, &block)
