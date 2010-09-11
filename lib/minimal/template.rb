@@ -5,8 +5,8 @@ class Minimal::Template
   autoload :TranslatedTags,   'minimal/template/translated_tags'
 
   AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|[^l]_for)
-  TAG_NAMES   = %w(a body div em fieldset h1 h2 h3 h4 h5 h6 head html img input label li link
-    ol option p pre script select span strong table thead tbody tfoot td title th tr ul)
+  TAG_NAMES   = %w(abbr a body div em fieldset h1 h2 h3 h4 h5 h6 head html img input label li
+    link ol option p pre script select span strong table thead tbody tfoot td title th tr ul)
   SKIP_IVARS  = [:controller]
 
   module Base
@@ -25,11 +25,12 @@ class Minimal::Template
 
     TAG_NAMES.each do |name|
       define_method(name) { |*args, &block| content_tag(name, *args, &block) }
-      define_method("#{name}_for") { |*args, &block| content_tag_for(name, *args, &block) }
+      # define_method("#{name}_for") { |*args, &block| content_tag_for(name, *args, &block) }
     end
 
     def <<(output)
       view.output_buffer << output
+      view.output_buffer << "\n".html_safe
     end
     alias :output :<<
 
