@@ -1,5 +1,4 @@
 class Minimal::Template
-  autoload :BeautifyHtml,     'minimal/template/beautify_html'
   autoload :FormBuilderProxy, 'minimal/template/form_builder_proxy'
   autoload :Handler,          'minimal/template/handler'
   autoload :TranslatedTags,   'minimal/template/translated_tags'
