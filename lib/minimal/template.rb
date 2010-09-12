@@ -40,9 +40,14 @@ class Minimal::Template
     protected
 
       def method_missing(method, *args, &block)
-        locals.key?(method) ? locals[method] :
-          view.instance_variable_defined?("@#{method}") && !SKIP_IVARS.include?(method) ? view.instance_variable_get("@#{method}") :
-            view.respond_to?(method) ? call_view(method, *args, &block) : super
+        return locals[method] if locals.key?(method)
+        return view.instance_variable_get("@#{method}") if ivar?(method)
+        return call_view(method, *args, &block) if view.respond_to?(method)
+        super
+      end
+
+      def ivar?(method)
+        !SKIP_IVARS.include?(method) && view.instance_variable_defined?("@#{method}") rescue false
       end
 
       def call_view(method, *args, &block)
