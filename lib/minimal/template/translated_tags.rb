@@ -5,7 +5,7 @@ class Minimal::Template
   module TranslatedTags
     TRANSLATED_TAGS.each do |name|
       define_method(name) do |*args, &block|
-        args[0] = t(args[0]) if args[0].is_a?(Symbol)
+        args[0] = t(args[0]).html_safe if args[0].is_a?(Symbol)
         super(*args, &block)
       end
     end
