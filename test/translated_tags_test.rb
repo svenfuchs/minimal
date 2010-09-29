@@ -17,6 +17,6 @@ class TranslatedTagsTest < Test::Unit::TestCase
   end
 
   test "keys given as content will be translated" do
-    assert_equal '<p>FOO</p>', view.render(:file => 'foo/translated')
+    assert_equal '<p>FOO</p>', view.render(:file => 'foo/translated').gsub("\n", '')
   end
 end
