@@ -6,13 +6,13 @@ class Minimal::Template
   AUTO_BUFFER = %r(render|tag|error_message_|select|debug|_to|[^l]_for)
   TAG_NAMES   = %w(abbr a body div em fieldset h1 h2 h3 h4 h5 h6 head html img input label li
     link ol option p pre script select span strong table thead tbody tfoot td title th tr ul)
-  SKIP_IVARS  = [:controller]
 
   module Base
     attr_accessor :view, :locals, :block
 
     def initialize(view = nil)
       @view, @locals, @_auto_buffer = view, {}, {}
+      view.assigns.each { |name, value| instance_variable_set(:"@#{name}", value) } if view
     end
 
     def _render(locals = nil, format = :html, &block)
@@ -24,12 +24,10 @@ class Minimal::Template
 
     TAG_NAMES.each do |name|
       define_method(name) { |*args, &block| content_tag(name, *args, &block) }
-      # define_method("#{name}_for") { |*args, &block| content_tag_for(name, *args, &block) }
     end
 
     def <<(output)
-      view.output_buffer << output
-      view.output_buffer << "\n".html_safe
+      view.output_buffer << output << "\n".html_safe
     end
     alias :output :<<
 
@@ -41,13 +39,8 @@ class Minimal::Template
 
       def method_missing(method, *args, &block)
         return locals[method] if locals.key?(method)
-        return view.instance_variable_get("@#{method}") if ivar?(method)
         return call_view(method, *args, &block) if view.respond_to?(method)
         super
-      end
-
-      def ivar?(method)
-        !SKIP_IVARS.include?(method) && view.instance_variable_defined?("@#{method}") rescue false
       end
 
       def call_view(method, *args, &block)

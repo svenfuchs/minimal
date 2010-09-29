@@ -1,4 +1,4 @@
-Minimal::Template is an experimental, minimalistic templating engine inspired by "Markaby":http://github.com/markaby/markaby & "Erector":http://erector.rubyforge.org but much smaller (~60 loc) and targeted at Rails 3. 
+Minimal::Template is an experimental, minimalistic templating engine inspired by "Markaby":http://github.com/markaby/markaby & "Erector":http://erector.rubyforge.org but much smaller (~55 loc) and targeted at Rails 3. 
 
 <pre># views/foo/bar.rb
 module Foo

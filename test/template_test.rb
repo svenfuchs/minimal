@@ -73,6 +73,11 @@ class TemplateTest < Test::Unit::TestCase
     assert_equal html, view.render(:file => 'foo/simple', :locals => { :local => 'local' }).gsub("\n", '')
   end
 
+  test "accessing an assigned instance_variable" do
+    view.assign(:foo => 'foo')
+    assert_equal '<p>foo</p>', view.render(:file => 'foo/ivar').gsub("\n", '')
+  end
+
   test "partial rendering" do
     html = '<div><p>foo</p><p>bar</p></div><p>baz</p>'
     assert_equal html, view.render(:file => 'foo/partial').gsub("\n", '')
