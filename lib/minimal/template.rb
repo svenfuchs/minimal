@@ -31,8 +31,8 @@ class Minimal::Template
     end
     alias :output :<<
 
-    def respond_to?(method)
-      view.respond_to?(method) || locals.key?(method) || view.instance_variable_defined?("@#{method}")
+    def respond_to?(method, include_private = false)
+      view.respond_to?(method) || locals.key?(method) || view.instance_variable_defined?("@#{method}") || super
     end
 
     protected
