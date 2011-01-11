@@ -151,4 +151,13 @@ class TemplateTest < Test::Unit::TestCase
     template.instance_variable_set(:@locals, :foo => 'bar')
     assert template.respond_to?(:foo)
   end
+
+  test "autobuffers expected methods" do
+    methods = %w(
+      error_messages_for
+    )
+    methods.each do |method|
+      assert_match Minimal::Template::AUTO_BUFFER, method
+    end
+  end
 end
