@@ -44,7 +44,8 @@ class Minimal::Template
       end
 
       def call_view(method, *args, &block)
-        view.send(method, *args, &block).tap { |result| self << result if auto_buffer?(method) }
+        buffer = args.last.delete(:_buffer) if args.last.is_a?(Hash)
+        view.send(method, *args, &block).tap { |result| self << result if !buffer.is_a?(FalseClass) && auto_buffer?(method) }
       end
 
       def auto_buffer?(method)
