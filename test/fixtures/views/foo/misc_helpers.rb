@@ -2,7 +2,7 @@ module Foo
   class MiscHelpers < Minimal::Template
     def to_html
       image_tag('http://no-asset-host.com/rails.png')
-      debug('foo')
+      # debug('foo')
       javascript_tag("alert('All is good')")
       # div_for(Record.new) { self << 'content' }
       tag('br')

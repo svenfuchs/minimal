@@ -120,7 +120,7 @@ class TemplateTest < Test::Unit::TestCase
 
   test "misc_helpers" do
     html = '<img alt="Rails" src="http://no-asset-host.com/rails.png" />' +
-      "<pre class='debug_dump'>--- foo</pre>" +
+      # "<pre class='debug_dump'>--- foo</pre>" +
       '<script type="text/javascript">//<![CDATA[alert(\'All is good\')//]]></script>' +
       # '<div class="record" id="record_1">content</div>' +
       '<br />' +
