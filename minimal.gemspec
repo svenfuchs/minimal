@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = '[none]'
   s.required_rubygems_version = '>= 1.3.6'
 
-  rails_version = '>=3.0.0'
+  rails_version = '>= 3.0.0'
   s.add_dependency 'actionpack', rails_version
   s.add_dependency 'activesupport', rails_version
 
